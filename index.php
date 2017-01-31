@@ -86,15 +86,44 @@
             console.log('Task ID: '+triggerElement.attr("id"));
         }
     });
-    $('#saveTask').click(function() {
+    $('#saveTask').click(function() {        
         //Assignment: Implement this functionality
-        alert('Save... Id:'+currentTaskId);
-        $('#myModal').modal('hide');
-        updateTaskList();
+        var mydata = new Array();
+        mydata[0] = $('#myModal').find('[id="InputTaskName"]').val();
+        mydata[1] = $('#myModal').find('[id="InputTaskDescription"]').val();
+        mydata[2] = currentTaskId;
+        mydata[3] = "save";
+        var jsondata = JSON.stringify(mydata);        
+        $.ajax({
+           type: 'POST',
+           url: "update_task.php",
+           data: {data : jsondata},
+           success: function (data){                                     
+               console.log(data);
+           } 
+        });
+        updateTaskList();        
+//        alert('Save... Id:'+currentTaskId);
+//        $('#myModal').modal('hide');
     });
     $('#deleteTask').click(function() {
+        var mydata = new Array();
+         mydata[0] = currentTaskId;
+         mydata[1] = null;
+         mydata[2] = null;
+         mydata[3] = null;
+         
+         var jsondata = JSON.stringify(mydata);
+        $.ajax({
+            type: 'POST',
+            url: "update_task.php",
+            data: {data: jsondata},
+            success: function (data) {
+                console.log(data);
+            }           
+        });
         //Assignment: Implement this functionality
-        alert('Delete... Id:'+currentTaskId);
+//        alert('Delete... Id:'+currentTaskId);
         $('#myModal').modal('hide');
         updateTaskList();
     });
